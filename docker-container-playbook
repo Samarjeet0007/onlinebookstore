@@ -21,8 +21,8 @@
       state: present
   - name: deploying container
     docker_container:
-      name: warfromjenkins
-      image: "996622/warfromjenkins:{{ docker_tag }}"
+      name: onlinebookstore
+      image: "996622/onlinebookstore:{{ docker_tag }}"
       state: started
       published_ports:
       - 0.0.0.0:8080:8080
