@@ -39,13 +39,13 @@ pipeline{
             steps{
                 sh "chmod +x replacing_imgTag.sh && ./replacing_imgTag.sh ${docker_tag}"
                 sshagent(['ec2_instance_key']) {
-                    scp -o StrictHostKeyChecking=no K8S_services.yml K8S_pod__updated.yml ec2-user@50.19.161.61:~/
+                    sh "scp -o StrictHostKeyChecking=no K8S_services.yml K8S_pod__updated.yml ec2-user@50.19.161.61:~/"
                     script{
                         try{
-                            ssh ec2-user@50.19.161.61 kubectl apply -f .
+                            sh "ssh ec2-user@50.19.161.61 kubectl apply -f ."
                         }
                         catch(error){
-                               ssh ec2-user@50.19.161.61 kubectl create -f .
+                               sh "ssh ec2-user@50.19.161.61 kubectl create -f ."
                         }
                     }
                 }
