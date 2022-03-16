@@ -9,4 +9,4 @@ spec:
     - name: onlinebookstore
       image: 996622/onlinebookstore:img_tag
       ports:
-        - containerPort:8080
+        - containerPort: 8080
