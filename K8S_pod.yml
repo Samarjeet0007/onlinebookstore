@@ -3,10 +3,10 @@ kind: Pod
 metadata:
   name: onlinebookstore
   labels:
-  - app: onlinebookstore
+    app: onlinebookstore
 spec:
   containers:
-  - name: onlinebookstore
-    image: 996622/onlinebookstore:img_tag
-    ports:
-    - containerPort:8080
+    - name: onlinebookstore
+      image: 996622/onlinebookstore:img_tag
+      ports:
+        - containerPort:8080
