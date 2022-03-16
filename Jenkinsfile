@@ -35,6 +35,11 @@ pipeline{
                 inventory: 'hosts.ini', playbook: 'docker-container-playbook'
             }
         }
+        stage('Deploy_to_K8S'){
+            steps{
+                sh "chmod +x replacing_imgTag.sh && ./replacing_imgTag.sh ${docker_tag}"
+            }
+        }
     }
 }
 def getVersion(){
