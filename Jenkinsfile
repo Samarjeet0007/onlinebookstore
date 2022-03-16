@@ -10,12 +10,6 @@ pipeline{
         docker_tag = getVersion()
     }
     stages{
-        //stage('SCM CHECKOUT'){
-        //    steps{
-        //        git url: 'https://github.com/Samarjeet0007/Jenkinsfile-git-maven-project', 
-        //        branch: 'main'
-        //    }
-        //}
         stage('MVN BUILD'){
             steps{
                 sh "mvn clean package"
