@@ -1,0 +1,28 @@
+- hosts: ec2_server
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: installing pip for docker-py
+    yum:
+      name: python-pip
+      state: installed
+  - name: installing docker
+    yum:
+      name: docker
+      state: present
+  - name: starting docker service
+    service:
+      name: docker
+      state: started
+      enabled: yes # it will auto. start when remote server will start
+  - name: installing docker-py for docker_container binary
+    pip:
+      name: docker-py # API for docker engine within python apps
+      state: present
+  - name: deploying container
+    docker_container:
+      name: warfromjenkins
+      image: "996622/warfromjenkins:{{ docker_tag }}"
+      state: started
+      published_ports:
+      - 0.0.0.0:8080:8080
