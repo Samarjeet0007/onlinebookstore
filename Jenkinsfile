@@ -17,7 +17,7 @@ pipeline{
         }
         stage('DOCKER BUILD'){
             steps{
-                sh "docker build . -t 996622/warfromjenkins:${docker_tag}"
+                sh "docker build . -t 996622/onlinebookstore:${docker_tag}"
             }
         }
         stage('DOCKER PUSH'){
@@ -25,7 +25,7 @@ pipeline{
                 withCredentials([string(credentialsId: 'docker-pass', variable: 'dockerpass')]) {
                 sh "docker login -u 996622 -p ${dockerpass}"
                 }
-                sh "docker push 996622/warfromjenkins:${docker_tag}"
+                sh "docker push 996622/onlinebookstore:${docker_tag}"
             }
         }
         stage('ANSIBLE_to_DEPLOY_CONTAINER'){
