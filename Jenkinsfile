@@ -29,7 +29,7 @@ pipeline{
             }
         }
         stage('ANSIBLE_to_DEPLOY_CONTAINER'){
-            steps{   
+            steps{    
                 ansiblePlaybook colorized: true, credentialsId: 'ec2_instance_key', 
                 disableHostKeyChecking: true, extras: "-e docker_tag=${docker_tag}", installation: 'ansible_', 
                 inventory: 'hosts.ini', playbook: 'docker-container-playbook'
