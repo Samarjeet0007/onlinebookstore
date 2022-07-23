@@ -28,6 +28,13 @@ pipeline{
                 sh "docker push 996622/onlinebookstore:${docker_tag}"
             }
         }
+        stage('Sent_Notification_to_SLACK'){
+            steps{
+                slackSend channel: '#devops-github_jenkins_notification', 
+                          color: 'good', failOnError: true, message: 'Docker Image deployed on DockerHub', 
+                          teamDomain: 'githubandjenk-ujp7017', username: 'notificationFromJenkins'
+            }
+        }
         stage('ANSIBLE_to_DEPLOY_CONTAINER'){
             steps{
                 ansiblePlaybook colorized: true, credentialsId: 'ec2_instance_key', 
