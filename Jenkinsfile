@@ -31,8 +31,10 @@ pipeline{
         stage('Sent_Notification_to_SLACK'){
             steps{
                 slackSend channel: '#devops-github_jenkins_notification', 
-                          color: 'good', failOnError: true, message: 'Docker Image deployed on DockerHub', 
-                          teamDomain: 'githubandjenk-ujp7017', username: 'notificationFromJenkins'
+                          color: 'good', failOnError: true, 
+                          message: 'Docker Image deployed on DockerHub', 
+                          tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                          username: 'notificationFromJenkins'
             }
         }
         stage('ANSIBLE_to_DEPLOY_CONTAINER'){
