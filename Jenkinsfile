@@ -12,6 +12,10 @@ pipeline{
     stages{
         stage('MVN BUILD'){
             steps{
+                slackSend channel: '#devops-github_jenkins_notification',  
+                          message: "Tiggered Jenkins job number: ${currentBuild.number}", 
+                          tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                          username: 'jenkinsTriggerNotification'
                 sh "mvn clean package"
             } 
         }
