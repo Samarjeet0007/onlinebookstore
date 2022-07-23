@@ -39,9 +39,20 @@ pipeline{
         }
         stage('ANSIBLE_to_DEPLOY_CONTAINER'){
             steps{
-                ansiblePlaybook colorized: true, credentialsId: 'ec2_instance_key', 
-                disableHostKeyChecking: true, extras: "-e docker_tag=${docker_tag}", installation: 'ansible_', 
-                inventory: 'hosts.ini', playbook: 'docker-container-playbook'
+                script{
+                    try{
+                        ansiblePlaybook colorized: true, credentialsId: 'ec2_instance_key', 
+                                    disableHostKeyChecking: true, extras: "-e docker_tag=${docker_tag}", installation: 'ansible_', 
+                                    inventory: 'hosts.ini', playbook: 'docker-container-playbook'   
+                    }
+                    catch(error){
+                        slackSend channel: '#devops-github_jenkins_notification', 
+                          color: 'danger', failOnError: true, 
+                            message: "ANSIBLE FAILED", 
+                          tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                          username: 'jenkinsNotification'
+                    }
+                }
             }
         }
         stage('Deploy_to_K8S'){
