@@ -72,19 +72,20 @@ pipeline{
                             catch(error){
                                sh "ssh ec2-user@3.91.46.51 kubectl create -f ."
                             }
+                            }
                             slackSend channel: '#devops-github_jenkins_notification', 
                             color: 'good', failOnError: true, 
                             message: "PASSED, Deployment Completed!!!", 
                             tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
                             username: 'jenkinsK8Snotification'
                         }
-                        //catch(error){
-                        //    slackSend channel: '#devops-github_jenkins_notification', 
-                        //    color: 'danger', failOnError: true, 
-                        //    message: "FAILED at EKS", 
-                        //    tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
-                        //    username: 'jenkinsK8Snotification'
-                        //}
+                        catch(error){
+                            slackSend channel: '#devops-github_jenkins_notification', 
+                            color: 'danger', failOnError: true, 
+                            message: "FAILED at EKS", 
+                            tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                            username: 'jenkinsK8Snotification'
+                        }
                     }
                 }
             }
