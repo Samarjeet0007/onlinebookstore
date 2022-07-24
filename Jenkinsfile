@@ -68,16 +68,23 @@ pipeline{
                             sh "scp -o StrictHostKeyChecking=no K8S_services.yml K8S_pod__updated.yml ec2-user@3.91.46.51:~/"
                             try{
                                 sh "ssh ec2-user@3.91.46.51 kubectl apply -f ."
+                                
+                                slackSend channel: '#devops-github_jenkins_notification', 
+                                color: 'good', failOnError: true, 
+                                message: "PASSED, Deployment Completed!!!", 
+                                tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                                username: 'jenkinsK8Snotification'
                             }
                             catch(error){
                                sh "ssh ec2-user@3.91.46.51 kubectl create -f ."
+                               
+                               slackSend channel: '#devops-github_jenkins_notification', 
+                               color: 'good', failOnError: true, 
+                               message: "PASSED, Deployment Completed!!!", 
+                               tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                               username: 'jenkinsK8Snotification'
                             }
                             }
-                            slackSend channel: '#devops-github_jenkins_notification', 
-                            color: 'good', failOnError: true, 
-                            message: "PASSED, Deployment Completed!!!", 
-                            tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
-                            username: 'jenkinsK8Snotification'
                         }
                         catch(error){
                             slackSend channel: '#devops-github_jenkins_notification', 
