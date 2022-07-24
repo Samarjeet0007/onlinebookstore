@@ -78,13 +78,13 @@ pipeline{
                             tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
                             username: 'jenkinsK8Snotification'
                         }
-                        catch(error){
-                            slackSend channel: '#devops-github_jenkins_notification', 
-                            color: 'danger', failOnError: true, 
-                            message: "FAILED at EKS", 
-                            tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
-                            username: 'jenkinsK8Snotification'
-                        }
+                        #catch(error){
+                        #    slackSend channel: '#devops-github_jenkins_notification', 
+                        #    color: 'danger', failOnError: true, 
+                        #    message: "FAILED at EKS", 
+                        #    tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                        #    username: 'jenkinsK8Snotification'
+                        #}
                     }
                 }
             }
