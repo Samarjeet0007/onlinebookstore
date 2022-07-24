@@ -61,15 +61,29 @@ pipeline{
         }
         stage('Deploy_to_K8S'){
             steps{
-                sh "chmod +x replacing_imgTag.sh && ./replacing_imgTag.sh ${docker_tag}"
-                sshagent(['ec2_instance_key']) {
-                    sh "scp -o StrictHostKeyChecking=no K8S_services.yml K8S_pod__updated.yml ec2-user@50.19.161.61:~/"
-                    script{
-                        try{
-                            sh "ssh ec2-user@50.19.161.61 kubectl apply -f ."
+                script{
+                    try{
+                            sh "chmod +x replacing_imgTag.sh && ./replacing_imgTag.sh ${docker_tag}"
+                            sshagent(['ec2_instance_key']) {
+                            sh "scp -o StrictHostKeyChecking=no K8S_services.yml K8S_pod__updated.yml ec2-user@3.91.46.51:~/"
+                            try{
+                                sh "ssh ec2-user@3.91.46.51 kubectl apply -f ."
+                            }
+                            catch(error){
+                               sh "ssh ec2-user@3.91.46.51 kubectl create -f ."
+                            }
+                            slackSend channel: '#devops-github_jenkins_notification', 
+                            color: 'good', failOnError: true, 
+                            message: "PASSED, Deployment Completed!!!", 
+                            tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                            username: 'jenkinsK8Snotification'
                         }
                         catch(error){
-                               sh "ssh ec2-user@50.19.161.61 kubectl create -f ."
+                            slackSend channel: '#devops-github_jenkins_notification', 
+                            color: 'danger', failOnError: true, 
+                            message: "FAILED at EKS", 
+                            tokenCredentialId: 'cb0cd56b-731c-4ffb-9bee-861185826780', 
+                            username: 'jenkinsK8Snotification'
                         }
                     }
                 }
